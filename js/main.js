@@ -13,10 +13,10 @@ window.addEventListener("DOMContentLoaded", function() {
 
 	// Create select field element and populate with options.
 	function makeCats() {
-			var formTag = document.getElementsByTagName('form'),
-					selectLi = $('select'),
-					makeSelect = document.createElement('select');
-					makeSelect.setAttribute('id', 'category');
+			var formTag 	= document.getElementsByTagName('form'),
+				selectLi 	= $('select'),
+				makeSelect 	= document.createElement('select');
+				makeSelect.setAttribute('id', 'category');
 			for(var i=0, j=foodCategories.length; i<j; i++) {
 					var makeOption = document.createElement('option');
 					var optText = foodCategories[i];
@@ -92,7 +92,7 @@ window.addEventListener("DOMContentLoaded", function() {
 					item.rcpName 	= ["Recipe Name:", $('rcpName').value];
 					item.directions = ["Directions:", $('directions').value];
 					item.favorite 	= ["Go-To-Meal?:", favoriteValue];
-					item.rating 		= ["Rating:", $('rating').value];				
+					item.rating 	= ["Rating:", $('rating').value];				
 			// Save data to local storage using stringify.
 			localStorage.setItem(id, JSON.stringify(item));
 			alert("Recipe added!");
@@ -113,10 +113,11 @@ window.addEventListener("DOMContentLoaded", function() {
 			// Just in case "items" doesn't display through the toggle function.
 			$('items').style.display 			= "block";
 			for(var i=0, j=localStorage.length; i<j; i++) {
-					var makeLi = document.createElement('li');
+					var makeLi 	= document.createElement('li');
+					var linksLi	= document.createElement('li');
 					makeList.appendChild(makeLi);
 					var key 	= localStorage.key(i);
-					var value = localStorage.getItem(key);
+					var value 	= localStorage.getItem(key);
 					var obj 	= JSON.parse(value);
 					// JSON.parse converts local storage string value to an object.
 					var makeSubList = document.createElement('ul');
@@ -126,8 +127,37 @@ window.addEventListener("DOMContentLoaded", function() {
 							makeSubList.appendChild(makeSubLi);
 							var optSubText = obj[l][0] + " " + obj[l][1];
 							makeSubLi.innerHTML = optSubText;
+							makeSubList.appendChild(linksLi);
 					}
+					// Creates edit and delete link, or button, for each local storage item
+					makeItemLinks(localStorage.key(i), linksLi);
 			} 
+	};
+
+	// Make Item links
+	// Creates the edit and delete links for each local storage item
+	var makeItemLinks = function (key, linksLi) {
+		// adds an individual item edit link
+		var editLink 		= document.createElement('a');
+		editLink.href 		= "#";
+		editLink.key		= key;
+		var editText		= "Edit Recipe";
+		//editLink.addEventListener('click', editItem);
+		editLink.innerHTML	= editText;
+		linksLi.appendChild(editLink);
+
+		// Adds a linke break to seperate the edit and delete links
+		var breakTag = document.createElement('br');
+		linksLi.appendChild(breakTag);
+
+		// Adds a individual tem delete link
+		var deleteLink		= document.createElement('a');
+		deleteLink.href	= "#";
+		deleteLink.key		= key;
+		var deleteText		= "Delete recipe";
+		//deleteLink.addEventListener('click', deleteItem);
+		deleteLink.innerHTML = deleteText;
+		linksLi.appendChild(deleteLink);
 	};
 
 	var clearData = function () {
@@ -147,7 +177,7 @@ window.addEventListener("DOMContentLoaded", function() {
 
 	makeCats();
 
-	// Set Link $ Submit Click Events
+	// eventListeners
 	var viewLink = $('viewLink');
 	viewLink.addEventListener('click', getData);
 	var clearLink = $('clearAll');
