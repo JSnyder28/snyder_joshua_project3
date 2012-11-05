@@ -163,7 +163,7 @@ window.addEventListener("DOMContentLoaded", function() {
 		deleteLink.href		= "#";
 		deleteLink.key		= key;
 		var deleteText		= "Delete recipe";
-		//deleteLink.addEventListener('click', deleteItem);
+		deleteLink.addEventListener('click', deleteItem);
 		deleteLink.innerHTML = deleteText;
 		linksLi.appendChild(deleteLink);
 	};
@@ -194,6 +194,17 @@ window.addEventListener("DOMContentLoaded", function() {
 		editSubmit.key = this.key;
 
 	};
+
+	var deleteItem = function () {
+		var ask = confirm("Are you sure you want to delete this Recipe?");
+		if (ask) {
+			localStorage.removeItem(this.key);
+			alert("Recipe has been deleted");
+			window.location.reload();
+		} else {
+			alert("Recipe was not deleted");
+		}
+	}
 
 	var clearData = function () {
 		if(localStorage.length === 0) {
