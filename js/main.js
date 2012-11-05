@@ -81,8 +81,16 @@ window.addEventListener("DOMContentLoaded", function() {
 		//console.log(directionsInput);
 	};
 	*/
-	function storeData() {
-			var id = Math.floor(Math.random()*100000001);
+	function storeData(key) {
+			// No key means a new item and a new key is required.
+			if (!key) {
+				var id = Math.floor(Math.random()*100000001);
+			} else {
+				// Overwrite the data being edited with a new id.
+				// Key is the same that is passed through the editSubmit event handler, to the validate function
+				// and then into the storeData function.
+				id = key;
+			}
 			// Gather all form values and store it as an object.
 			// Object properties contain an array with form labels and inout values.
 			getCheckboxValue();
@@ -160,8 +168,8 @@ window.addEventListener("DOMContentLoaded", function() {
 		linksLi.appendChild(deleteLink);
 	};
 
-	// Get item data from local storage
 	var editItem = function () {
+		// Get item data from local storage
 		var value 	= localStorage.getItem(this.key)
 		var item 	= JSON.parse(value);
 		  // Toggles form visibility to on
@@ -171,16 +179,16 @@ window.addEventListener("DOMContentLoaded", function() {
 		$('dateAdded').value 	= item.date[1];
 		$('rcpName').value 		= item.rcpName[1];
 		$('directions').value 	= item.directions[1];
-		if (item.favorite == "Yes") {
+		if (item.favorite[1] == "Yes") {
 			$('goToMeal').setAttribute("checked", "checked");
 		}
 		$('rating').value = item.rating[1];
 
 		// Remove the save EventListener from the Add It! button
-		save.removeEventlistener('click', storeData);
+		save.removeEventListener('click', storeData);
 		// Change button text from "add It!" to "Update Recipe"
-		$('submit').value 	= "Update Recipe";
-		var editSubmit 		= $('submit');
+		$('addIt').value 	= "Update Recipe";
+		var editSubmit 		= $('addIt');
 		// Save the key for this function as an editSubmit property. The value can then be used when the edited data is saved.
 		editSubmit.addEventListener('click', validate);
 		editSubmit.key = this.key;
@@ -241,8 +249,9 @@ window.addEventListener("DOMContentLoaded", function() {
 				v.preventDefault();
 				return false;	
 			} else {
-				// If all fields are completed, then save the data
-				storeData();
+				// If all fields are completed, then save the data. Send the key value that came from the editData function.
+				// this.key value was passed from the editSubmit event listener as a property.
+				storeData(this.key);
 			}
 			
 	};
