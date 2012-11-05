@@ -18,11 +18,11 @@ window.addEventListener("DOMContentLoaded", function() {
 				makeSelect 	= document.createElement('select');
 				makeSelect.setAttribute('id', 'category');
 			for(var i=0, j=foodCategories.length; i<j; i++) {
-					var makeOption = document.createElement('option');
-					var optText = foodCategories[i];
-					makeOption.setAttribute('value', optText);
-					makeOption.innerHTML = optText;
-					makeSelect.appendChild(makeOption);
+				var makeOption = document.createElement('option');
+				var optText = foodCategories[i];
+				makeOption.setAttribute('value', optText);
+				makeOption.innerHTML = optText;
+				makeSelect.appendChild(makeOption);
 			}
 			selectLi.appendChild(makeSelect);
 	};
@@ -39,24 +39,24 @@ window.addEventListener("DOMContentLoaded", function() {
 	// Toggle form visibility on/off.
 	var toggleControls = function (t) {
 			switch(t) {
-					case "on":
-							$('addRcpForm').style.display 	= "none";
-							$('clearAll').style.display 	= "inline";
-							$('viewLink').style.display 	= "none";
-							$('addRcp').style.display 		= "inline";
-							break;
-					case "off":
-							$('addRcpForm').style.display 	= "block";
-							$('clearAll').style.display 	= "inline";
-							$('viewLink').style.Display 	= "inline";
-							$('addRcp').style.display 		= "none";
-							$('items').style.display 		= "none";
-							break;
-					default:
-							return false;
+				case "on":
+						$('addRcpForm').style.display 	= "none";
+						$('clearAll').style.display 	= "inline";
+						$('viewLink').style.display 	= "none";
+						$('addRcp').style.display 		= "inline";
+						break;
+				case "off":
+						$('addRcpForm').style.display 	= "block";
+						$('clearAll').style.display 	= "inline";
+						$('viewLink').style.Display 	= "inline";
+						$('addRcp').style.display 		= "none";
+						$('items').style.display 		= "none";
+						break;
+				default:
+						return false;
 			}
 	};
-
+	/*
 	// Validates the input fields
 	var checkFields = function () {
 		var catInput 		= $('category').value;	
@@ -80,7 +80,7 @@ window.addEventListener("DOMContentLoaded", function() {
 
 		//console.log(directionsInput);
 	};
-
+	*/
 	function storeData() {
 			var id = Math.floor(Math.random()*100000001);
 			// Gather all form values and store it as an object.
@@ -142,7 +142,7 @@ window.addEventListener("DOMContentLoaded", function() {
 		editLink.href 		= "#";
 		editLink.key		= key;
 		var editText		= "Edit Recipe";
-		//editLink.addEventListener('click', editItem);
+		editLink.addEventListener('click', editItem);
 		editLink.innerHTML	= editText;
 		linksLi.appendChild(editLink);
 
@@ -152,7 +152,7 @@ window.addEventListener("DOMContentLoaded", function() {
 
 		// Adds a individual tem delete link
 		var deleteLink		= document.createElement('a');
-		deleteLink.href	= "#";
+		deleteLink.href		= "#";
 		deleteLink.key		= key;
 		var deleteText		= "Delete recipe";
 		//deleteLink.addEventListener('click', deleteItem);
@@ -160,21 +160,97 @@ window.addEventListener("DOMContentLoaded", function() {
 		linksLi.appendChild(deleteLink);
 	};
 
+	// Get item data from local storage
+	var editItem = function () {
+		var value 	= localStorage.getItem(this.key)
+		var item 	= JSON.parse(value);
+		  // Toggles form visibility to on
+		toggleControls('off');
+		  // Populates form with local storage values.
+		$('category').value 	= item.cat[1];
+		$('dateAdded').value 	= item.date[1];
+		$('rcpName').value 		= item.rcpName[1];
+		$('directions').value 	= item.directions[1];
+		if (item.favorite == "Yes") {
+			$('goToMeal').setAttribute("checked", "checked");
+		}
+		$('rating').value = item.rating[1];
+
+		// Remove the save EventListener from the Add It! button
+		save.removeEventlistener('click', storeData);
+		// Change button text from "add It!" to "Update Recipe"
+		$('submit').value 	= "Update Recipe";
+		var editSubmit 		= $('submit');
+		// Save the key for this function as an editSubmit property. The value can then be used when the edited data is saved.
+		editSubmit.addEventListener('click', validate);
+		editSubmit.key = this.key;
+
+	};
+
 	var clearData = function () {
-			if(localStorage.length === 0) {
-					alert("You have no saved recipes!");
-			} else {
-				localStorage.clear();
-				alert("All recipes have been removed");
-				window.location.reload();
-				return false;
+		if(localStorage.length === 0) {
+				alert("You have no saved recipes!");
+		} else {
+			localStorage.clear();
+			alert("All recipes have been removed");
+			window.location.reload();
+			return false;
+		}
+	};
+
+	// Only checks for validity of Category, Recipe Name and Directions
+	var validate = function (v) {
+			// Define elements to check
+			var getCat 			= $('category');
+			var getRcpName		= $('rcpName');
+			var getDirections	= $('directions');
+			// Update the error mesages list that is displayed
+			errorMsg.innerHTML = "";
+			getCat.style.border = "2px solid black";
+			getRcpName.style.border = "2px solid black";
+			getDirections.style.border = "2px solid black";
+
+			// Error messages for required input fields
+			var msgArry = [];
+			// Category validation
+			if (getCat.value === "--Choose One--") {
+				var catError = "Please choose a Category";
+				getCat.style.border = "2px solid red";
+				msgArry.push(catError);
 			}
+			// Recipe Name Validation
+			if (getRcpName === "") {
+				var rcpNameError = "Please enter a Recipe Name";
+				getRcpName.style.border = "2px solid red";
+				msgArry.push(rcpNameError);
+			}
+			// Directions validation
+			if (getDirections === "") {
+				var directionsError = "Please enter the Recipe Directions";
+				getDirections.style.border = "2px solid red";
+				msgArry.push(directionsError);
+			}
+			// Display applicable error messages
+			if (msgArry.length >= 1) {
+				for (var i = 0, j = msgArry.length; i < j; i++) {
+					var txt = document.createElement('li');
+					txt.innerHTML = msgArry[i];
+					errorMsg.appendChild(txt);
+				}
+				// Prevent the form from storing data
+				v.preventDefault();
+				return false;	
+			} else {
+				// If all fields are complted, then save the data
+				storeData();
+			}
+			
 	};
 
 	// Variable Defaults
-	var foodCategories = ["--Choose One--", "American", "Chinese", "Italian", "Japanese", "Mexican", "Seasonal"];
-			favoriteValue = "No";
-
+	var foodCategories 	= ["--Choose One--", "American", "Chinese", "Italian", "Japanese", "Mexican", "Seasonal"];
+		favoriteValue 	= "No";
+		errorMsg		= $('errors')
 	makeCats();
 
 	// eventListeners
@@ -182,8 +258,8 @@ window.addEventListener("DOMContentLoaded", function() {
 	viewLink.addEventListener('click', getData);
 	var clearLink = $('clearAll');
 	clearLink.addEventListener('click', clearData);
-	var checkForm = $('addIt');
-	checkForm.addEventListener('click', checkFields);
+	//var checkForm = $('addIt');
+	//checkForm.addEventListener('click', checkFields);
 	var save = $('addIt');
-	save.addEventListener('click', storeData);
+	save.addEventListener('click', validate);
 });
