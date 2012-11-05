@@ -219,13 +219,13 @@ window.addEventListener("DOMContentLoaded", function() {
 				msgArry.push(catError);
 			}
 			// Recipe Name Validation
-			if (getRcpName === "") {
+			if (getRcpName.value === "") {
 				var rcpNameError = "Please enter a Recipe Name";
 				getRcpName.style.border = "2px solid red";
 				msgArry.push(rcpNameError);
 			}
 			// Directions validation
-			if (getDirections === "") {
+			if (getDirections.value === "") {
 				var directionsError = "Please enter the Recipe Directions";
 				getDirections.style.border = "2px solid red";
 				msgArry.push(directionsError);
@@ -241,7 +241,7 @@ window.addEventListener("DOMContentLoaded", function() {
 				v.preventDefault();
 				return false;	
 			} else {
-				// If all fields are complted, then save the data
+				// If all fields are completed, then save the data
 				storeData();
 			}
 			
