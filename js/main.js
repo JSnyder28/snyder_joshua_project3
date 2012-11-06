@@ -6,23 +6,23 @@
 window.addEventListener("DOMContentLoaded", function() {
 
 	// getElementById Function.
-	function $(x) {
+	var $ = function (x) {
 			var _element = document.getElementById(x);
 			return _element;
 	};
 
 	// Create select field element and populate with options.
-	function makeCats() {
+	var makeCats = function () {
 			var formTag 	= document.getElementsByTagName('form'),
 				selectLi 	= $('select'),
 				makeSelect 	= document.createElement('select');
 				makeSelect.setAttribute('id', 'category');
 			for(var i=0, j=foodCategories.length; i<j; i++) {
-				var makeOption = document.createElement('option');
-				var optText = foodCategories[i];
-				makeOption.setAttribute('value', optText);
-				makeOption.innerHTML = optText;
-				makeSelect.appendChild(makeOption);
+					var makeOption = document.createElement('option');
+					var optText = foodCategories[i];
+					makeOption.setAttribute('value', optText);
+					makeOption.innerHTML = optText;
+					makeSelect.appendChild(makeOption);
 			}
 			selectLi.appendChild(makeSelect);
 	};
@@ -56,32 +56,8 @@ window.addEventListener("DOMContentLoaded", function() {
 						return false;
 			}
 	};
-	/*
-	// Validates the input fields
-	var checkFields = function () {
-		var catInput 		= $('category').value;	
-			rcpNameInput 	= $('rcpName').value;
-			directionsInput = $('directions').value;
-			valid 			= true;
-		if ( catInput == foodCategories[0] ) {
-			alert("Please select a Food Category");
-			valid = false;
-		} 
-			// Needs a conditional for the date added input.
-		if ( rcpNameInput == "" ) {
-			alert("Please add a Recipe Name");
-			valid = false;
-		}
-		if (directionsInput == "") {
-			alert("Please add the Directions");
-			valid = false;
-		}
-		return valid;
-
-		//console.log(directionsInput);
-	};
-	*/
-	function storeData(key) {
+	
+	var storeData = function (key) {
 			// No key means a new item and a new key is required.
 			if (!key) {
 				var id = Math.floor(Math.random()*100000001);
@@ -119,7 +95,7 @@ window.addEventListener("DOMContentLoaded", function() {
 			makeDiv.appendChild(makeList);
 			document.body.appendChild(makeDiv);
 			// Just in case "items" doesn't display through the toggle function.
-			$('items').style.display 			= "block";
+			$('items').style.display = "block";
 			for(var i=0, j=localStorage.length; i<j; i++) {
 					var makeLi 	= document.createElement('li');
 					var linksLi	= document.createElement('li');
@@ -225,36 +201,36 @@ window.addEventListener("DOMContentLoaded", function() {
 			var getDirections	= $('directions');
 			// Update the error mesages list that is displayed
 			errorMsg.innerHTML = "";
-			getCat.style.border = "2px solid black";
-			getRcpName.style.border = "2px solid black";
-			getDirections.style.border = "2px solid black";
+			getCat.style.border = "1px solid black";
+			getRcpName.style.border = "1px solid black";
+			getDirections.style.border = "1px solid black";
 
 			// Error messages for required input fields
 			var msgArry = [];
 			// Category validation
-			if (getCat.value === "--Choose One--") {
-				var catError = "Please choose a Category";
-				getCat.style.border = "2px solid red";
-				msgArry.push(catError);
+			if (getCat.value === foodCategories[0]) {
+					var catError = "Please choose a Category";
+					getCat.style.border = "2px solid red";
+					msgArry.push(catError);
 			}
 			// Recipe Name Validation
 			if (getRcpName.value === "") {
-				var rcpNameError = "Please enter a Recipe Name";
-				getRcpName.style.border = "2px solid red";
-				msgArry.push(rcpNameError);
+					var rcpNameError = "Please enter a Recipe Name";
+					getRcpName.style.border = "2px solid red";
+					msgArry.push(rcpNameError);
 			}
 			// Directions validation
 			if (getDirections.value === "") {
-				var directionsError = "Please enter the Recipe Directions";
-				getDirections.style.border = "2px solid red";
-				msgArry.push(directionsError);
+					var directionsError = "Please enter the Recipe Directions";
+					getDirections.style.border = "2px solid red";
+					msgArry.push(directionsError);
 			}
 			// Display applicable error messages
 			if (msgArry.length >= 1) {
 				for (var i = 0, j = msgArry.length; i < j; i++) {
-					var txt = document.createElement('li');
-					txt.innerHTML = msgArry[i];
-					errorMsg.appendChild(txt);
+						var txt = document.createElement('li');
+						txt.innerHTML = msgArry[i];
+						errorMsg.appendChild(txt);
 				}
 				// Prevent the form from storing data
 				v.preventDefault();
@@ -278,8 +254,6 @@ window.addEventListener("DOMContentLoaded", function() {
 	viewLink.addEventListener('click', getData);
 	var clearLink = $('clearAll');
 	clearLink.addEventListener('click', clearData);
-	//var checkForm = $('addIt');
-	//checkForm.addEventListener('click', checkFields);
 	var save = $('addIt');
 	save.addEventListener('click', validate);
 });
