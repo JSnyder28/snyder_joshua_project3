@@ -38,9 +38,19 @@ fieldset {
     background-color: #FAEBD7;
 }
 
-#items {
+#items > ul > li {
     outline-style: ridge;
     outline-color: gray;
     outline-width: thin;
     background-color: #FAEBD7;
+    margin-top: 10px
 }
+
+#items > ul > li > ul > li:nth-of-type(odd) {
+    background-color: white;
+}
+
+a:link(color: blue;)
+a:visited(color: red;)
+a:hover(color: gray;)
+a:active(color: black;)

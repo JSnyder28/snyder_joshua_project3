@@ -17,7 +17,7 @@ window.addEventListener("DOMContentLoaded", function() {
 				selectLi 	= $('select'),
 				makeSelect 	= document.createElement('select');
 				makeSelect.setAttribute('id', 'category');
-			for(var i=0, j=foodCategories.length; i<j; i++) {
+			for(var i = 0, j = foodCategories.length; i < j; i++) {
 					var makeOption = document.createElement('option');
 					var optText = foodCategories[i];
 					makeOption.setAttribute('value', optText);
@@ -90,13 +90,13 @@ window.addEventListener("DOMContentLoaded", function() {
 			};
 			// Write data from the local storage to the browser.
 			var makeDiv = document.createElement('div');
-			makeDiv.setAttribute("id", "items");
+			makeDiv.setAttribute('id', 'items');
 			var makeList = document.createElement('ul');
 			makeDiv.appendChild(makeList);
 			document.body.appendChild(makeDiv);
 			// Just in case "items" doesn't display through the toggle function.
 			$('items').style.display = "block";
-			for(var i=0, j=localStorage.length; i<j; i++) {
+			for(var i = 0, j = localStorage.length; i < j; i++) {
 					var makeLi 	= document.createElement('li');
 					var linksLi	= document.createElement('li');
 					makeList.appendChild(makeLi);
@@ -113,7 +113,7 @@ window.addEventListener("DOMContentLoaded", function() {
 							makeSubLi.innerHTML = optSubText;
 							makeSubList.appendChild(linksLi);
 					}
-					// Creates edit and delete link, or button, for each local storage item
+					// Creates edit and delete link for each local storage item
 					makeItemLinks(localStorage.key(i), linksLi);
 			} 
 	};
@@ -122,12 +122,12 @@ window.addEventListener("DOMContentLoaded", function() {
 	// Creates the edit and delete links for each local storage item
 	var makeItemLinks = function (key, linksLi) {
 		// adds an individual item edit link
-		var editLink 		= document.createElement('a');
-		editLink.href 		= "#";
-		editLink.key		= key;
-		var editText		= "Edit Recipe";
+		var editLink 	= document.createElement('a');
+		editLink.href 	= "#";
+		editLink.key	= key;
+		var editText	= "Edit Recipe";
 		editLink.addEventListener('click', editItem);
-		editLink.innerHTML	= editText;
+		editLink.innerHTML = editText;
 		linksLi.appendChild(editLink);
 
 		// Adds a linke break to seperate the edit and delete links
@@ -135,10 +135,10 @@ window.addEventListener("DOMContentLoaded", function() {
 		linksLi.appendChild(breakTag);
 
 		// Adds a individual tem delete link
-		var deleteLink		= document.createElement('a');
-		deleteLink.href		= "#";
-		deleteLink.key		= key;
-		var deleteText		= "Delete recipe";
+		var deleteLink	= document.createElement('a');
+		deleteLink.href	= "#";
+		deleteLink.key	= key;
+		var deleteText	= "Delete recipe";
 		deleteLink.addEventListener('click', deleteItem);
 		deleteLink.innerHTML = deleteText;
 		linksLi.appendChild(deleteLink);
@@ -196,14 +196,14 @@ window.addEventListener("DOMContentLoaded", function() {
 	// Only checks for validity of Category, Recipe Name and Directions
 	var validate = function (v) {
 			// Define elements to check
-			var getCat 			= $('category');
-			var getRcpName		= $('rcpName');
-			var getDirections	= $('directions');
+			var getCat 					= $('category');
+			var getRcpName				= $('rcpName');
+			var getDirections			= $('directions');
 			// Update the error mesages list that is displayed
-			errorMsg.innerHTML = "";
-			getCat.style.border = "1px solid black";
-			getRcpName.style.border = "1px solid black";
-			getDirections.style.border = "1px solid black";
+			errorMsg.innerHTML 			= "";
+			getCat.style.border 		= "1px solid black";
+			getRcpName.style.border 	= "1px solid black";
+			getDirections.style.border 	= "1px solid black";
 
 			// Error messages for required input fields
 			var msgArry = [];
