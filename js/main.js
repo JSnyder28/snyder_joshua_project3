@@ -89,7 +89,7 @@ window.addEventListener("DOMContentLoaded", function() {
 			toggleControls("on");
 			if(localStorage.length === 0) {
 					alert("No recipes to view");
-			};
+			}
 			// Write data from the local storage to the browser.
 			var makeDiv = document.createElement('div');
 			makeDiv.setAttribute('id', 'items');
@@ -188,10 +188,10 @@ window.addEventListener("DOMContentLoaded", function() {
 		if(localStorage.length === 0) {
 				alert("You have no saved recipes!");
 		} else {
-			localStorage.clear();
-			alert("All recipes have been removed");
-			window.location.reload();
-			return false;
+				localStorage.clear();
+				alert("All recipes have been removed");
+				window.location.reload();
+				return false;
 		}
 	};
 
@@ -229,11 +229,11 @@ window.addEventListener("DOMContentLoaded", function() {
 			}
 			// Display applicable error messages
 			if (msgArry.length >= 1) {
-				for (var i = 0, j = msgArry.length; i < j; i++) {
-						var txt = document.createElement('li');
-						txt.innerHTML = msgArry[i];
-						errorMsg.appendChild(txt);
-				}
+					for (var i = 0, j = msgArry.length; i < j; i++) {
+							var txt = document.createElement('li');
+							txt.innerHTML = msgArry[i];
+							errorMsg.appendChild(txt);
+					}
 				// Prevent the form from storing data
 				v.preventDefault();
 				return false;	
