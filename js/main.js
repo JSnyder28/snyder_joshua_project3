@@ -79,7 +79,9 @@ window.addEventListener("DOMContentLoaded", function() {
 					item.rating 	= ["Rating:", $('rating').value];				
 			// Save data to local storage using stringify.
 			localStorage.setItem(id, JSON.stringify(item));
-			alert("Recipe added!");
+			if ($('addIt').value == "Add It!") {
+				alert("Recipe added!");
+			}
 			window.location.reload();
 	};
 
@@ -239,6 +241,9 @@ window.addEventListener("DOMContentLoaded", function() {
 				// If all fields are completed, then save the data. Send the key value that came from the editData function.
 				// this.key value was passed from the editSubmit event listener as a property.
 				storeData(this.key);
+			}
+			if ($('addIt').value == "Update Recipe") {
+					alert("Recipe Updated");
 			}
 			
 	};
